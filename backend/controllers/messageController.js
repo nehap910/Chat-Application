@@ -44,9 +44,11 @@ export const getMessage = async (req, res) => {
     const senderId = req.id;
     const conversation = await Conversation.findOne({
       participants:{$all:[senderId,receiverId]}
-    }).populate("messages")
-    console.log(conversation);
-  } catch (error) {
+    }).populate("messages");
+    return res.status(201).json(
+      conversation?.messages
+    )
+     } catch (error) {
     console.log(error.message);
   }
 };
