@@ -4,7 +4,6 @@ import { user } from "../modals/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-
 //   register
 export const register = async (req, res) => {
   try {
@@ -46,9 +45,6 @@ export const register = async (req, res) => {
   }
 };
 
-
-
-
 //login
 export const login = async (req, res) => {
   try {
@@ -85,13 +81,44 @@ export const login = async (req, res) => {
     });
 
     //const toke = xy(token)
-    return res.status(200).cookie("token", token,{maxAge:1*24*60*60*1000,httpOnly:true,sameSite:'strict'}).json({
-      _id:User._id,
-      username: User.username,
-      fullname:User.fullname,
-      profilePhoto:User.profilePhoto,
-      success:true
+    return res
+      .status(200)
+      .cookie("token", token, {
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "strict",
+      })
+      .json({
+        _id: User._id,
+        username: User.username,
+        fullname: User.fullname,
+        profilePhoto: User.profilePhoto,
+        success: true,
+      });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+//logout
+export const logout = (req, res) => {
+  try {
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+      message: "User Logged out successfully!!",
     });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getOtherUsers = async (req, res) => {
+  try {
+    const loggedInUserId = req.id;
+    const otherUsers = await user
+      .find({ _id: { $ne: loggedInUserId } })
+      .select("-password"); //$ne means not equal to
+
+    return res.status(200).json(otherUsers);
   } catch (error) {
     console.log(error.message);
   }
