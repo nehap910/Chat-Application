@@ -6,10 +6,10 @@ const conversationModal = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"User"
   }],
-  message:[{
+  messages:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Message" 
   }]
 
 },{timestamps:true});
-export const conversation = mongoose.model("Conversation",conversationModal);
+export const Conversation = mongoose.model("Conversation",conversationModal);
