@@ -4,7 +4,7 @@ import { user } from "../modals/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-//   register
+//register
 export const register = async (req, res) => {
   try {
     const { fullname, username, password, confirmPassword, gender } = req.body;
@@ -26,7 +26,6 @@ export const register = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
 
     //profile photo
-
     const maleProfilePhotot = `https://avatar.iran.liara.run/public/boy?username=${username}`;
     const femaleProfilePhotot = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
@@ -44,6 +43,7 @@ export const register = async (req, res) => {
     console.log("Error: " + error.message);
   }
 };
+
 
 //login
 export const login = async (req, res) => {
